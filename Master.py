@@ -1,17 +1,12 @@
 """
-Produces NIRAWDATA tree structure.
+Produces MOCHImodel tree structure.
 
-Created on Mon Oct 21 15:31:15 2013
+Initialized Mon Oct 21 15:31:15 2013
 
-@author: A. Card
+Author: A. Card
 """
 import MDSplus as mds
 import Functions as func
-
-"""
-surya = '192.168.0.194'
-mds.Connection(surya)
-"""
 
 proto = mds.Tree(tree='proto_tree', shot=-1, mode='New')
 
@@ -37,7 +32,6 @@ for i in xrange(DAQcard):
 
 """Build voltage measurements child branch."""
 for i in xrange(DAQcard):
-    func.VOLTcards(proto, i)
     for j in xrange(DAQchannel):
         func.VOLTchannels(proto, i, j)
 
