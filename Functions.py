@@ -22,7 +22,7 @@ def TreeInit(tree):
     tree.addNode('.SETTINGS.EXPERIMENT:SHOT_DATE', usage='TEXT')
     tree.addNode('.SETTINGS.EXPERIMENT:SHOT_NOTES', usage='TEXT')
     tree.addNode('.SETTINGS.EXPERIMENT:SYS_MESSAGE', usage='TEXT')
-    tree.addNode('.SETTINGS.EXPERIMENT:SHOT_FLAVOR', usage='TEXT')
+    tree.addNode('.SETTINGS.EXPERIMENT:SHOT_QUALITY', usage='TEXT')
     tree.addNode('.SETTINGS.EXPERIMENT:SHOT_NUMBER', usage='TEXT')
 
 
@@ -112,9 +112,7 @@ def VOLTchannels(tree, DAQnum, CHnum):
     This function creates the tree structure for all DAQ cards.
     """
     tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum)
-                 + '.DATA')
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum)
-                 + '.DATA:WAVEFORM', usage='SIGNAL')
+                 + ':DATA', usage='SIGNAL')
     tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum)
                  + '.DATA:TIME_VALUES', usage='NUMERIC')
     tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum)
