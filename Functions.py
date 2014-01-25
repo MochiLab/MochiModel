@@ -5,6 +5,16 @@ Initialized Mon Oct 21 14:20:36 2013
 
 Author: A. Card
 """
+def AddNodeWithTag(tree, nodepath, nodetype, tag):
+    """
+    Adds the desired node w/type to a given tree with a user-defined tag.
+    Note
+    ----
+    All except for tree are strings.
+    """
+    tree.addNode(nodepath, usage=nodetype)
+    tempnode = tree.getNode(nodepath)
+    tempnode.addTag(tag)
 
 
 def TreeInit(tree):
@@ -19,11 +29,14 @@ def TreeInit(tree):
     tree.addNode('.SETTINGS.NI.DAQ')
     tree.addNode('.NI_DAQ')
     """ Single-valued member nodes """
-    tree.addNode('.SETTINGS.EXPERIMENT:SHOT_DATE', usage='TEXT')
-    tree.addNode('.SETTINGS.EXPERIMENT:SHOT_NOTES', usage='TEXT')
-    tree.addNode('.SETTINGS.EXPERIMENT:SYS_MESSAGE', usage='TEXT')
-    tree.addNode('.SETTINGS.EXPERIMENT:SHOT_QUALITY', usage='TEXT')
-    tree.addNode('.SETTINGS.EXPERIMENT:SHOT_NUMBER', usage='TEXT')
+    AddNodeWithTag(tree,'.SETTINGS.EXPERIMENT:SHOT_DATE','TEXT',
+                   'SHOTDATEANDTIME')
+    AddNodeWithTag(tree,'.SETTINGS.EXPERIMENT:SHOT_NOTES','TEXT','SHOTNOTES')
+    AddNodeWithTag(tree,'.SETTINGS.EXPERIMENT:SYS_MESSAGE','TEXT','SYSMESSAGE')
+    AddNodeWithTag(tree,'.SETTINGS.EXPERIMENT:SHOT_QUALITY','TEXT',
+                   'SHOTQUALITY')
+    AddNodeWithTag(tree,'.SETTINGS.EXPERIMENT:SHOT_NUMBER','TEXT',
+                   'SHOTNUMBER')
 
 
 def TIMEcards(tree, TIMEnum):
@@ -33,53 +46,51 @@ def TIMEcards(tree, TIMEnum):
     tree.addNode('.SETTINGS.NI.TIMING.TCARD_' + str(TIMEnum))
     tree.addNode('.SETTINGS.NI.TIMING.TCARD_' + str(TIMEnum) +
                  '.TCARD_GLOBAL')
-    tree.addNode('.SETTINGS.NI.TIMING.TCARD_' + str(TIMEnum) +
-                 '.TCARD_GLOBAL:SLOT_NUMBER', usage='TEXT')
+    AddNodeWithTag(tree, '.SETTINGS.NI.TIMING.TCARD_' + str(TIMEnum) +
+                 '.TCARD_GLOBAL:SLOT_NUMBER', 'TEXT', 'TIMESLOTNUM_CARD' +
+                 str(TIMEnum))
 
 
 def TIMEchannels(tree, TIMEnum, CHnum):
     """
     Builds the node structure for the timing cards' channels.
     """
-    tree.addNode('.SETTINGS.NI.TIMING.TCARD_'
+    chanpath = ('.SETTINGS.NI.TIMING.TCARD_'
                  + str(TIMEnum) + '.CHANNEL_' + str(CHnum))
-    tree.addNode('.SETTINGS.NI.TIMING.TCARD_'
-                 + str(TIMEnum) + '.CHANNEL_' + str(CHnum) + ':ACTIVE',
-                 usage='NUMERIC')
-    tree.addNode('.SETTINGS.NI.TIMING.TCARD_'
-                 + str(TIMEnum) + '.CHANNEL_' + str(CHnum) + ':CHANNEL_NAME',
-                 usage='TEXT')
-    tree.addNode('.SETTINGS.NI.TIMING.TCARD_'
-                 + str(TIMEnum) + '.CHANNEL_' + str(CHnum) + ':DELAY',
-                 usage='NUMERIC')
-    tree.addNode('.SETTINGS.NI.TIMING.TCARD_'
-                 + str(TIMEnum) + '.CHANNEL_' + str(CHnum) + ':PULSE_WIDTH',
-                 usage='NUMERIC')
-    tree.addNode('.SETTINGS.NI.TIMING.TCARD_'
-                 + str(TIMEnum) + '.CHANNEL_' + str(CHnum) + ':NI_NAME',
-                 usage='TEXT')
+    tree.addNode(chanpath)
+    AddNodeWithTag(tree, chanpath + ':ACTIVE', 'NUMERIC', 'TIMACTIVE_CARD' +
+                   str(TIMEnum) + 'CH' + str(CHnum))
+    AddNodeWithTag(tree, chanpath + ':CHANNEL_NAME', 'TEXT', 
+                   'TIMEUSERNAME_CARD' + str(TIMEnum) + 'CH' + str(CHnum))
+    AddNodeWithTag(tree, chanpath + ':DELAY', 'NUMERIC', 'DELAYTIME_CARD' +
+                   str(TIMEnum) + 'CH' + str(CHnum))
+    AddNodeWithTag(tree, chanpath + ':PULSE_WIDTH', 'NUMERIC',
+                   'PWM_CARD' + str(TIMEnum) + 'CH' + str(CHnum))
+    AddNodeWithTag(tree, chanpath + ':NI_NAME', 'TEXT', 'TIMENINAME_CARD' +
+                   str(TIMEnum) + 'CH' + str(CHnum))
 
 
 def DAQcards(tree, DAQnum):
     """
     This function creates the tree structure for all DAQ cards.
     """
+    cardpath = ('.NI_DAQ.DAQ_' + str(DAQnum) + '.DCARD_GLOBAL')
     tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum))
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) + '.DCARD_GLOBAL')
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) +
-                 '.DCARD_GLOBAL:START_T', usage='NUMERIC')
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) +
-                 '.DCARD_GLOBAL:END_T', usage='NUMERIC')
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) +
-                 '.DCARD_GLOBAL:SAMPLE_RATE', usage='NUMERIC')
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) +
-                 '.DCARD_GLOBAL:DELTA_T', usage='NUMERIC')
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) +
-                 '.DCARD_GLOBAL:N_PRE_SAMP', usage='NUMERIC')
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) +
-                 '.DCARD_GLOBAL:N_SAMPLES', usage='NUMERIC')
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) +
-                 '.DCARD_GLOBAL:SLOT_NUMBER', usage='TEXT')
+    tree.addNode(cardpath)
+    AddNodeWithTag(tree, cardpath + ':START_T', 'NUMERIC', 'START_CARD' +
+                   str(DAQnum))
+    AddNodeWithTag(tree, cardpath + ':END_T', 'NUMERIC', 'END_CARD' +
+                   str(DAQnum))
+    AddNodeWithTag(tree, cardpath + ':SAMPLE_RATE', 'NUMERIC', 
+                   'SAMPLERATE_CARD' + str(DAQnum))
+    AddNodeWithTag(tree, cardpath + ':DELTA_T', 'NUMERIC', 'DELTAT_CARD' +
+                   str(DAQnum))
+    AddNodeWithTag(tree, cardpath + ':N_PRE_SAMP', 'NUMERIC', 'N_PRESAMP_CARD' +
+                   str(DAQnum))
+    AddNodeWithTag(tree, cardpath + ':N_SAMPLES', 'NUMERIC',
+                   'NUMBERSAMPLES_CARD' + str(DAQnum))
+    AddNodeWithTag(tree, cardpath + ':SLOT_NUMBER', 'TEXT', 'DAQSLOTNUM_CARD' +
+                   str(DAQnum))
 
 
 def DAQchannels(tree, DAQnum, CHnum):
@@ -88,16 +99,17 @@ def DAQchannels(tree, DAQnum, CHnum):
     DAQ channel by reading the variable DAQnum.
     """
     tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum))
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum)
+    chanpath = ('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum)
                  + '.CHAN_SETTING')
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum)
-                 + '.CHAN_SETTING:ACTIVE', usage='NUMERIC')
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum)
-                 + '.CHAN_SETTING:CHANNEL_NAME', usage='TEXT')
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum)
-                 + '.CHAN_SETTING:VOLT_RANGE', usage='NUMERIC')
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum)
-                 + '.CHAN_SETTING:NI_NAME', usage='TEXT')
+    tree.addNode(chanpath)
+    AddNodeWithTag(tree, chanpath + ':ACTIVE', 'NUMERIC', 'DAQTIVE_CARD' +
+                   str(DAQnum) + 'CH' + str(CHnum))
+    AddNodeWithTag(tree, chanpath + ':CHANNEL_NAME', 'TEXT', 'CHANNELNAME_CARD' 
+                   + str(DAQnum) + 'CH' + str(CHnum))
+    AddNodeWithTag(tree, chanpath + ':VOLT_RANGE', 'NUMERIC', 'VOLTRANGE_CARD' 
+                   + str(DAQnum) + 'CH' + str(CHnum))
+    AddNodeWithTag(tree, chanpath + ':NI_NAME', 'TEXT', 'DAQNINAME_CARD' 
+                   + str(DAQnum) + 'CH' + str(CHnum))
 
 
 def VOLTcards(tree, DAQnum):
@@ -111,11 +123,13 @@ def VOLTchannels(tree, DAQnum, CHnum):
     """
     This function creates the tree structure for all DAQ cards.
     """
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum)
-                 + ':DATA', usage='SIGNAL')
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum)
-                 + '.DATA:TIME_VALUES', usage='NUMERIC')
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum)
-                 + '.DATA:DATA_VALUES', usage='NUMERIC')
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum)
-                 + '.DATA:DELTA_T', usage='NUMERIC')
+    datapath = ('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum))
+    AddNodeWithTag(tree, datapath + ':DATA', 'SIGNAL', 'NIRAWDATA_CARD' 
+                   + str(DAQnum) + 'CH' + str(CHnum))
+    AddNodeWithTag(tree, datapath + '.DATA:TIME_VALUES', 'NUMERIC', 
+                   'NITIMEVALUES_CARD' + str(DAQnum) + 'CH' + str(CHnum))
+    AddNodeWithTag(tree, datapath + '.DATA:DATA_VALUES', 'NUMERIC', 
+                   'NIDATAVALUES_CARD' + str(DAQnum) + 'CH' + str(CHnum))
+    AddNodeWithTag(tree, datapath + '.DATA:DELTA_T', 'NUMERIC', 
+                   'NIDELTAT_CARD' + str(DAQnum) + 'CH' + str(CHnum))
+
