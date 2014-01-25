@@ -62,7 +62,7 @@ def TIMEchannels(tree, TIMEnum, CHnum):
                    str(TIMEnum) + 'CH' + str(CHnum))
     AddNodeWithTag(tree, chanpath + ':CHANNEL_NAME', 'TEXT', 
                    'TIMEUSERNAME_CARD' + str(TIMEnum) + 'CH' + str(CHnum))
-    AddNodeWithTag(tree, chanpath + ':DELAY', 'NUMERIC', 'DELAYTIME_CARD' +
+    AddNodeWithTag(tree, chanpath + ':DELAY', 'NUMERIC', 'TIMEDELAY_CARD' +
                    str(TIMEnum) + 'CH' + str(CHnum))
     AddNodeWithTag(tree, chanpath + ':PULSE_WIDTH', 'NUMERIC',
                    'PWM_CARD' + str(TIMEnum) + 'CH' + str(CHnum))
@@ -104,7 +104,7 @@ def DAQchannels(tree, DAQnum, CHnum):
     tree.addNode(chanpath)
     AddNodeWithTag(tree, chanpath + ':ACTIVE', 'NUMERIC', 'DAQTIVE_CARD' +
                    str(DAQnum) + 'CH' + str(CHnum))
-    AddNodeWithTag(tree, chanpath + ':CHANNEL_NAME', 'TEXT', 'CHANNELNAME_CARD' 
+    AddNodeWithTag(tree, chanpath + ':CHANNEL_NAME', 'TEXT', 'DAQUSERNAME_CARD' 
                    + str(DAQnum) + 'CH' + str(CHnum))
     AddNodeWithTag(tree, chanpath + ':VOLT_RANGE', 'NUMERIC', 'VOLTRANGE_CARD' 
                    + str(DAQnum) + 'CH' + str(CHnum))
