@@ -62,8 +62,8 @@ def TIMEchannels(tree, TIMEnum, CHnum):
                    str(TIMEnum) + 'CH' + str(CHnum))
     AddNodeWithTag(tree, chanpath + ':CHANNEL_NAME', 'TEXT', 
                    'TIMEUSERNAME_CARD' + str(TIMEnum) + 'CH' + str(CHnum))
-    AddNodeWithTag(tree, chanpath + ':DELAY', 'NUMERIC', 'TIMEDELAY_CARD' +
-                   str(TIMEnum) + 'CH' + str(CHnum))
+    AddNodeWithTag(tree, chanpath + ':TRIG_TIME', 'NUMERIC', 'TRIGGERTIME_CARD'
+                   + str(TIMEnum) + 'CH' + str(CHnum))
     AddNodeWithTag(tree, chanpath + ':PULSE_WIDTH', 'NUMERIC',
                    'PWM_CARD' + str(TIMEnum) + 'CH' + str(CHnum))
     AddNodeWithTag(tree, chanpath + ':NI_NAME', 'TEXT', 'TIMENINAME_CARD' +
