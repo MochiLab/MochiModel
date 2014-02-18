@@ -37,6 +37,8 @@ def TreeInit(tree):
                    'SHOTQUALITY')
     AddNodeWithTag(tree,'.SETTINGS.EXPERIMENT:SHOT_NUMBER','TEXT',
                    'SHOTNUMBER')
+    AddNodeWithTag(tree,'.SETTINGS.EXPERIMENT:PROG_VERSION','TEXT',
+                   'PROGRAM_VERSION')
 
 
 def TIMEcards(tree, TIMEnum):
