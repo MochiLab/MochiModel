@@ -29,6 +29,7 @@ def TreeInit(tree):
     tree.addNode('.SETTINGS.NI.DAQ')
     tree.addNode('.NI_DAQ')
     tree.addNode('.NI_RIO')
+    tree.addNode('.SETTINGS.NI.DIO')
     """ Single-valued member nodes """
     AddNodeWithTag(tree,'.SETTINGS.EXPERIMENT:SHOT_DATE','TEXT',
                    'SHOTDATEANDTIME')
@@ -138,8 +139,8 @@ def RIOcards(tree, RIOnum):
 
 def RIOchannels(tree, RIOnum, CHnum):
     """
-    This function creates the tree structure for a given
-    RIO channel by reading the variable RIOnum.
+    This function creates the tree structure for a given RIO channel by
+    reading the variable RIOnum.
     """
     tree.addNode('.NI_RIO.RIO_' + str(RIOnum) + '.CHANNEL_' + str(CHnum))
     chanpath = ('.NI_RIO.RIO_' + str(RIOnum) + '.CHANNEL_' + str(CHnum)
@@ -194,3 +195,15 @@ def VOLTchannels_R(tree, RIOnum, CHnum):
     AddNodeWithTag(tree, datapath + '.DATA:DELTA_T', 'NUMERIC', 
                    'NIDELTAT_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
 
+def DIOchannels(tree, DIOnum):
+    """
+    This function creates the tree nodes necessary for storing DIO information.
+    """
+    tree.addNode('.SETTINGS.NI.DIO.CHANNEL_' + str(DIOnum))
+    diopath = ('.SETTINGS.NI.DIO.CHANNEL_' + str(DIOnum))
+    AddNodeWithTag(tree, diopath + ':CHANNEL_NAME', 'TEXT', 'USERNAME_DIOCH' 
+                   + str(DIOnum))
+    AddNodeWithTag(tree, diopath + ':NI_NAME', 'TEXT', 'NINAME_DIOCH' 
+                   + str(DIOnum))
+    
+    

@@ -17,6 +17,7 @@ RIOcard = 3
 RIOchannel = 32
 TimeCard = 2
 TCardChannel = 8
+DIOchannel = 8
 
 """Initialize TOP node parent structure."""
 func.TreeInit(proto)
@@ -48,6 +49,10 @@ for i in xrange(DAQcard):
 for i in xrange(RIOcard):
     for j in xrange(RIOchannel):
         func.VOLTchannels_R(proto, i, j)
+        
+"""Build DIO relay control branch."""
+for i in range(DIOchannel):
+    func.DIOchannels(proto, i)
 
 proto.write()
 proto.quit()
