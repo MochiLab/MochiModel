@@ -95,6 +95,8 @@ def DAQcards(tree, DAQnum):
                    'NUMBERSAMPLES_DCARD' + str(DAQnum))
     AddNodeWithTag(tree, cardpath + ':SLOT_NUMBER', 'TEXT', 'SLOTNUM_DCARD' +
                    str(DAQnum))
+    AddNodeWithTag(tree, cardpath + ':PXISTARLINE', 'TEXT', 'PXISTARLINE_DCARD'
+                   + str(DAQnum))
 
 
 def DAQchannels(tree, DAQnum, CHnum):
@@ -133,8 +135,12 @@ def RIOcards(tree, RIOnum):
                    str(RIOnum))
     AddNodeWithTag(tree, cardpath + ':N_SAMPLES', 'NUMERIC',
                    'NUMBERSAMPLES_RCARD' + str(RIOnum))
-    AddNodeWithTag(tree, cardpath + ':SLOT_NUMBER', 'TEXT', 'SLOTNUM_RCARD' +
+    AddNodeWithTag(tree, cardpath + ':FPGA_NAME', 'TEXT', 'FPGANAME_RCARD' +
                    str(RIOnum))
+    AddNodeWithTag(tree, cardpath + ':PXISTARLINE', 'TEXT', 'PXISTARLINE_RCARD'
+                   + str(RIOnum))
+    AddNodeWithTag(tree, cardpath + ':DELAYCYCLES', 'NUMERIC',
+                   'DELAYCYCLES_RCARD' + str(RIOnum))
     AddNodeWithTag(tree, cardpath + ':FPGA_RAW', 'NUMERIC',
                    'FPGA_RAW_RCARD' + str(RIOnum))
 
