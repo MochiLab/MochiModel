@@ -135,6 +135,8 @@ def RIOcards(tree, RIOnum):
                    'NUMBERSAMPLES_RCARD' + str(RIOnum))
     AddNodeWithTag(tree, cardpath + ':SLOT_NUMBER', 'TEXT', 'SLOTNUM_RCARD' +
                    str(RIOnum))
+    AddNodeWithTag(tree, cardpath + ':FPGA_RAW', 'NUMERIC',
+                   'FPGA_RAW_RCARD' + str(RIOnum))
 
 
 def RIOchannels(tree, RIOnum, CHnum):
@@ -156,18 +158,20 @@ def RIOchannels(tree, RIOnum, CHnum):
                    + str(RIOnum) + 'CH' + str(CHnum))
     AddNodeWithTag(tree, chanpath + ':LPFILT_FREQ', 'NUMERIC',
                    'LP_FILT_FREQ_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
+    AddNodeWithTag(tree, chanpath + ':HPFILT_FREQ', 'NUMERIC',
+                   'HP_FILT_FREQ_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
     AddNodeWithTag(tree, chanpath + ':GAIN', 'NUMERIC', 'GAIN_RCARD' 
                    + str(RIOnum) + 'CH' + str(CHnum))
 
 
-def VOLTcards(tree, DAQnum):
+def DATAcards(tree, DAQnum):
     """
     This function creates the tree structure for all DAQ cards. INCOMPLETE!
     """
     tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum))
 
 
-def VOLTchannels_D(tree, DAQnum, CHnum):
+def DATAchannels_D(tree, DAQnum, CHnum):
     """
     This function creates the tree structure for all DAQ cards.
     """
@@ -181,19 +185,29 @@ def VOLTchannels_D(tree, DAQnum, CHnum):
     AddNodeWithTag(tree, datapath + '.DATA:DELTA_T', 'NUMERIC', 
                    'NIDELTAT_DCARD' + str(DAQnum) + 'CH' + str(CHnum))
                    
-def VOLTchannels_R(tree, RIOnum, CHnum):
+def DATAchannels_R(tree, RIOnum, CHnum):
     """
-    This function creates the tree structure for all DAQ cards.
+    This function creates the tree structure for all DAQ card data streams.
     """
     datapath = ('.NI_RIO.RIO_' + str(RIOnum) + '.CHANNEL_' + str(CHnum))
-    AddNodeWithTag(tree, datapath + ':DATA', 'SIGNAL', 'NIRAWDATA_RCARD' 
+    AddNodeWithTag(tree, datapath + ':VOLTAGE', 'SIGNAL', 'NIRAWDATA_RCARD' 
                    + str(RIOnum) + 'CH' + str(CHnum))
-    AddNodeWithTag(tree, datapath + '.DATA:TIME_VALUES', 'NUMERIC', 
-                   'NITIMEVALUES_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
-    AddNodeWithTag(tree, datapath + '.DATA:DATA_VALUES', 'NUMERIC', 
-                   'NIDATAVALUES_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
-    AddNodeWithTag(tree, datapath + '.DATA:DELTA_T', 'NUMERIC', 
-                   'NIDELTAT_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
+    AddNodeWithTag(tree, datapath + ':COUNTS', 'SIGNAL', 'NIRAWCOUNTS_RCARD' 
+                   + str(RIOnum) + 'CH' + str(CHnum))
+
+    AddNodeWithTag(tree, datapath + '.VOLTAGE:TIME_VALUES', 'NUMERIC', 
+                   'VTIMEVALUES_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
+    AddNodeWithTag(tree, datapath + '.VOLTAGE:DATA_VALUES', 'NUMERIC', 
+                   'VDATAVALUES_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
+    AddNodeWithTag(tree, datapath + '.VOLTAGE:DELTA_T', 'NUMERIC', 
+                   'VDELTAT_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
+
+    AddNodeWithTag(tree, datapath + '.COUNTS:TIME_VALUES', 'NUMERIC', 
+                   'CTIMEVALUES_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
+    AddNodeWithTag(tree, datapath + '.COUNTS:DATA_VALUES', 'NUMERIC', 
+                   'CDATAVALUES_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
+    AddNodeWithTag(tree, datapath + '.COUNTS:DELTA_T', 'NUMERIC', 
+                   'CDELTAT_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
 
 def DIOchannels(tree, DIOnum):
     """

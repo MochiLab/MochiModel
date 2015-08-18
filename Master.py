@@ -9,7 +9,7 @@ import MDSplus as mds
 import Functions as func
 reload(func)
 
-proto = mds.Tree(tree='proto_tree', shot=-1, mode='New')
+treename = mds.Tree(tree='test_tree', shot=-1, mode='New')
 
 DAQcard = 3
 DAQchannel = 8
@@ -20,39 +20,39 @@ TCardChannel = 8
 DIOchannel = 8
 
 """Initialize TOP node parent structure."""
-func.TreeInit(proto)
+func.TreeInit(treename)
 
 """Build Timing child branch."""
 for i in xrange(TimeCard):
-    func.TIMEcards(proto, i)
+    func.TIMEcards(treename, i)
     for j in xrange(TCardChannel):
-        func.TIMEchannels(proto, i, j)
+        func.TIMEchannels(treename, i, j)
 
 """Build DAQ card child branch."""
 for i in xrange(DAQcard):
-    func.DAQcards(proto, i)
+    func.DAQcards(treename, i)
     for j in xrange(DAQchannel):
-        func.DAQchannels(proto, i, j)
+        func.DAQchannels(treename, i, j)
         
 """Build RIO card child branch."""
 for i in xrange(RIOcard):
-    func.RIOcards(proto, i)
+    func.RIOcards(treename, i)
     for j in xrange(RIOchannel):
-        func.RIOchannels(proto, i, j)
+        func.RIOchannels(treename, i, j)
 
-"""Build DAQ voltage measurements child branch."""
+"""Build DAQ voltage data measurements child branch."""
 for i in xrange(DAQcard):
     for j in xrange(DAQchannel):
-        func.VOLTchannels_D(proto, i, j)
+        func.DATAchannels_D(treename, i, j)
         
-"""Build RIO voltage measurements child branch."""
+"""Build RIO voltage data measurements child branch."""
 for i in xrange(RIOcard):
     for j in xrange(RIOchannel):
-        func.VOLTchannels_R(proto, i, j)
+        func.DATAchannels_R(treename, i, j)
         
 """Build DIO relay control branch."""
 for i in range(DIOchannel):
-    func.DIOchannels(proto, i)
+    func.DIOchannels(treename, i)
 
-proto.write()
-proto.quit()
+treename.write()
+treename.quit()
