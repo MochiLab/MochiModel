@@ -30,6 +30,7 @@ def TreeInit(tree):
     tree.addNode('.NI_DAQ')
     tree.addNode('.NI_RIO')
     tree.addNode('.SETTINGS.NI.DIO')
+    tree.addNode('.TEK_SCOPE')
     """ Single-valued member nodes """
     AddNodeWithTag(tree,'.SETTINGS.EXPERIMENT:SHOT_DATE','TEXT',
                    'SHOTDATEANDTIME')
@@ -225,5 +226,37 @@ def DIOchannels(tree, DIOnum):
                    + str(DIOnum))
     AddNodeWithTag(tree, diopath + ':NI_NAME', 'TEXT', 'NINAME_DIOCH' 
                    + str(DIOnum))
-    
+                   
+
+def scopechannels(tree, scope_chan):
+    """
+    This function builds the Tektronix oscilloscope data/setting nodes.
+    """
+    scope_chnum = scope_chan + 1
+    chanpath = '.TEK_SCOPE.CHANNEL_' + str(scope_chnum)
+    datapath = chanpath + '.DATA'
+    settingpath = chanpath + '.SETTINGS'
+    tree.addNode(chanpath)
+    AddNodeWithTag(tree, chanpath + ':STATE', 'TEXT', 'STATE_TEKCH' +
+                   str(scope_chnum))
+    AddNodeWithTag(tree, chanpath + ':DATA', 'SIGNAL', 'DATA_TEKCH' +
+                   str(scope_chnum))
+    tree.addNode(settingpath)
+    AddNodeWithTag(tree, datapath + ':TIME', 'NUMERIC', 'TIMEVALUES_TEKCH' +
+                   str(scope_chnum))
+    AddNodeWithTag(tree, datapath + ':VOLTAGE', 'NUMERIC',
+                   'VOLTAGEVALUES_TEKCH' + str(scope_chnum))
+    AddNodeWithTag(tree, settingpath + ':N_SAMPLES', 'NUMERIC',
+                   'NSAMPLES_TEKCH' + str(scope_chnum))
+    AddNodeWithTag(tree, settingpath + ':DELTA_T', 'NUMERIC', 'DT_TEKCH' +
+                   str(scope_chnum))
+    AddNodeWithTag(tree, settingpath + ':N_PRE_SAMP', 'NUMERIC',
+                   'NPRESAMP_TEKCH' + str(scope_chnum))
+    AddNodeWithTag(tree, settingpath + ':TIME_DIV', 'NUMERIC',
+                   'TIMEPERDIV_TEKCH' + str(scope_chnum))
+    AddNodeWithTag(tree, settingpath + ':VOLT_DIV', 'NUMERIC',
+                   'VOLTSPERDIV_TEKCH' + str(scope_chnum))
+    AddNodeWithTag(tree, settingpath + ':PROBE_ATTEN', 'NUMERIC',
+                   'PROBEATTENUATION_TEKCH' + str(scope_chnum))
+
     
