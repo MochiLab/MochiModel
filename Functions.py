@@ -31,6 +31,10 @@ def TreeInit(tree):
     tree.addNode('.NI_RIO')
     tree.addNode('.SETTINGS.NI.DIO')
     tree.addNode('.TEK_SCOPE')
+    tree.addNode('.CAMERAS')
+    tree.addNode('.CAMERAS.PIMAX3')
+    tree.addNode('.CAMERAS.PIMAX3.CAM_SETTING')
+    tree.addNode('.CAMERAS.IMACON')
     """ Single-valued member nodes """
     AddNodeWithTag(tree,'.SETTINGS.EXPERIMENT:SHOT_DATE','TEXT',
                    'SHOTDATEANDTIME')
@@ -42,6 +46,12 @@ def TreeInit(tree):
                    'SHOTNUMBER')
     AddNodeWithTag(tree,'.SETTINGS.EXPERIMENT:PROG_VERSION','TEXT',
                    'PROGRAM_VERSION')
+    AddNodeWithTag(tree, '.CAMERAS.PIMAX3.CAM_SETTING:NUMERFRAMES', 
+                   'NUMERIC', 'NUMBER_PFRAMES')
+    AddNodeWithTag(tree, '.CAMERAS.PIMAX3.CAM_SETTING:INTENS_ON',
+                   'NUMERIC', 'PIMAX_INTENSIFIER_STATE')
+    AddNodeWithTag(tree, '.CAMERAS.PIMAX3.CAM_SETTING.INTENS_ON:GAIN', 
+                   'NUMERIC', 'PIMAX_INTENSIFIER_GAIN')
 
 
 def TIMEcards(tree, TIMEnum):
@@ -259,4 +269,19 @@ def scopechannels(tree, scope_chan):
     AddNodeWithTag(tree, settingpath + ':PROBE_ATTEN', 'NUMERIC',
                    'PROBEATTENUATION_TEKCH' + str(scope_chnum))
 
+
+def camframes(tree, cam_frame):
+    """
+    This function builds the storage nodes for the images produced by the
+    PI-MAX3 camera.
+    """
+    campath = '.CAMERAS.PIMAX3'
+    settingspath = '.CAMERAS.PIMAX3.CAM_SETTING'
+    cam_frame = cam_frame + 1
+    AddNodeWithTag(tree, campath + ':FRAME_' + str(cam_frame), 'NUMERIC',
+                   'PIMAX_FRAME' + str(cam_frame))
+    AddNodeWithTag(tree, campath + '.FRAME_' + str(cam_frame) + ':EXPOSURE', 
+                   'NUMERIC', 'EXPOSURE_PFRAME' + str(cam_frame))
+    AddNodeWithTag(tree, campath + '.FRAME_' + str(cam_frame) + ':DELAY', 
+                   'NUMERIC', 'GATEDELAY_PFRAME' + str(cam_frame)) 
     

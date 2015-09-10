@@ -9,7 +9,7 @@ import MDSplus as mds
 import Functions as func
 reload(func)
 
-treename = mds.Tree(tree='test_tree', shot=-1, mode='New')
+treename = mds.Tree(tree='proto_tree', shot=-1, mode='New')
 
 DAQcard = 3
 DAQchannel = 8
@@ -19,6 +19,7 @@ TimeCard = 2
 TCardChannel = 8
 DIOchannel = 8
 scope_chan = 4
+cam_frames = 2
 
 """Initialize TOP node parent structure"""
 func.TreeInit(treename)
@@ -51,13 +52,17 @@ for i in xrange(RIOcard):
     for j in xrange(RIOchannel):
         func.DATAchannels_R(treename, i, j)
         
-"""Build DIO relay control branch."""
+"""Build DIO relay control branch"""
 for i in range(DIOchannel):
     func.DIOchannels(treename, i)
     
 """Build oscilloscope storage branch"""
 for i in range(scope_chan):
     func.scopechannels(treename, i)
+
+"""Build camera storage branch"""
+for i in range(cam_frames):
+    func.camframes(treename, i)
 
 treename.write()
 treename.quit()
