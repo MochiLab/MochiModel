@@ -33,6 +33,7 @@ def TreeInit(tree):
     tree.addNode('.TEK_SCOPE')
     tree.addNode('.CAMERAS')
     tree.addNode('.CAMERAS.PIMAX3')
+    tree.addNode('.CAMERAS.PIMAX3.RAW')
     tree.addNode('.CAMERAS.PIMAX3.CAM_SETTING')
     tree.addNode('.CAMERAS.IMACON')
     """ Single-valued member nodes """
@@ -46,6 +47,9 @@ def TreeInit(tree):
                    'SHOTNUMBER')
     AddNodeWithTag(tree,'.SETTINGS.EXPERIMENT:PROG_VERSION','TEXT',
                    'PROGRAM_VERSION')
+    AddNodeWithTag(tree, '.TEK_SCOPE:RAW', 'TEXT', 'RAWTEKSCOPE')
+    AddNodeWithTag(tree, '.CAMERAS.PIMAX3.RAW:HEADER', 'TEXT', 'PIMAX_RAWHEADER')
+    AddNodeWithTag(tree, '.CAMERAS.PIMAX3.RAW:FOOTER', 'TEXT', 'PIMAX_RAWFOOTER')
     AddNodeWithTag(tree, '.CAMERAS.PIMAX3.CAM_SETTING:NUMERFRAMES', 
                    'NUMERIC', 'NUMBER_PFRAMES')
     AddNodeWithTag(tree, '.CAMERAS.PIMAX3.CAM_SETTING:INTENS_ON',
