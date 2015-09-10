@@ -49,7 +49,7 @@ def TreeInit(tree):
     AddNodeWithTag(tree, '.CAMERAS.PIMAX3.CAM_SETTING:NUMERFRAMES', 
                    'NUMERIC', 'NUMBER_PFRAMES')
     AddNodeWithTag(tree, '.CAMERAS.PIMAX3.CAM_SETTING:INTENS_ON',
-                   'NUMERIC', 'PIMAX_INTENSIFIER_STATE')
+                   'TEXT', 'PIMAX_INTENSIFIER_STATE')
     AddNodeWithTag(tree, '.CAMERAS.PIMAX3.CAM_SETTING.INTENS_ON:GAIN', 
                    'NUMERIC', 'PIMAX_INTENSIFIER_GAIN')
 
