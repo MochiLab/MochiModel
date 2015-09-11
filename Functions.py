@@ -15,6 +15,13 @@ def AddNodeWithTag(tree, nodepath, nodetype, tag):
     tree.addNode(nodepath, usage=nodetype)
     tempnode = tree.getNode(nodepath)
     tempnode.addTag(tag)
+    
+    
+def AddUnit(tree, parentnodepath, unit):
+    """
+    Adds a child node to parent node that stores the parent node's unit.
+    """
+    tree.addNode(parentnodepath + ':UNIT', usage='Text').putData(unit)
 
 
 def TreeInit(tree):
@@ -48,15 +55,7 @@ def TreeInit(tree):
     AddNodeWithTag(tree,'.SETTINGS.EXPERIMENT:PROG_VERSION','TEXT',
                    'PROGRAM_VERSION')
     AddNodeWithTag(tree, '.TEK_SCOPE:RAW', 'TEXT', 'RAWTEKSCOPE')
-    AddNodeWithTag(tree, '.CAMERAS.PIMAX3.RAW:HEADER', 'TEXT', 'PIMAX_RAWHEADER')
-    AddNodeWithTag(tree, '.CAMERAS.PIMAX3.RAW:FOOTER', 'TEXT', 'PIMAX_RAWFOOTER')
-    AddNodeWithTag(tree, '.CAMERAS.PIMAX3.CAM_SETTING:NUMERFRAMES', 
-                   'NUMERIC', 'NUMBER_PFRAMES')
-    AddNodeWithTag(tree, '.CAMERAS.PIMAX3.CAM_SETTING:INTENS_ON',
-                   'TEXT', 'PIMAX_INTENSIFIER_STATE')
-    AddNodeWithTag(tree, '.CAMERAS.PIMAX3.CAM_SETTING.INTENS_ON:GAIN', 
-                   'NUMERIC', 'PIMAX_INTENSIFIER_GAIN')
-
+    
 
 def TIMEcards(tree, TIMEnum):
     """
@@ -83,8 +82,10 @@ def TIMEchannels(tree, TIMEnum, CHnum):
                    'TIMEUSERNAME_CARD' + str(TIMEnum) + 'CH' + str(CHnum))
     AddNodeWithTag(tree, chanpath + ':TRIG_TIME', 'NUMERIC', 'TRIGGERTIME_CARD'
                    + str(TIMEnum) + 'CH' + str(CHnum))
+    AddUnit(tree, chanpath + ':TRIG_TIME', 's')
     AddNodeWithTag(tree, chanpath + ':PULSE_WIDTH', 'NUMERIC',
                    'PWM_CARD' + str(TIMEnum) + 'CH' + str(CHnum))
+    AddUnit(tree, chanpath + ':PULSE_WIDTH', 's')
     AddNodeWithTag(tree, chanpath + ':NI_NAME', 'TEXT', 'TIMENINAME_CARD' +
                    str(TIMEnum) + 'CH' + str(CHnum))
 
@@ -98,12 +99,16 @@ def DAQcards(tree, DAQnum):
     tree.addNode(cardpath)
     AddNodeWithTag(tree, cardpath + ':START_T', 'NUMERIC', 'START_DCARD' +
                    str(DAQnum))
+    AddUnit(tree, cardpath + ':START_T', 's')
     AddNodeWithTag(tree, cardpath + ':END_T', 'NUMERIC', 'END_DCARD' +
                    str(DAQnum))
+    AddUnit(tree, cardpath + ':END_T', 's')
     AddNodeWithTag(tree, cardpath + ':SAMPLE_RATE', 'NUMERIC', 
                    'SAMPLERATE_DCARD' + str(DAQnum))
+    AddUnit(tree, cardpath + ':SAMPLE_RATE', 's^-1')
     AddNodeWithTag(tree, cardpath + ':DELTA_T', 'NUMERIC', 'DELTAT_DCARD' +
                    str(DAQnum))
+    AddUnit(tree, cardpath + ':DELTA_T', 's')
     AddNodeWithTag(tree, cardpath + ':N_PRE_SAMP', 'NUMERIC', 'N_PRESAMP_DCARD'
                    + str(DAQnum))
     AddNodeWithTag(tree, cardpath + ':N_SAMPLES', 'NUMERIC',
@@ -129,6 +134,7 @@ def DAQchannels(tree, DAQnum, CHnum):
                    + str(DAQnum) + 'CH' + str(CHnum))
     AddNodeWithTag(tree, chanpath + ':VOLT_RANGE', 'NUMERIC', 'VOLTRANGE_DCARD' 
                    + str(DAQnum) + 'CH' + str(CHnum))
+    AddUnit(tree, chanpath + ':VOLT_RANGE', 'V')
     AddNodeWithTag(tree, chanpath + ':NI_NAME', 'TEXT', 'NINAME_DCARD' 
                    + str(DAQnum) + 'CH' + str(CHnum))
                    
@@ -142,12 +148,16 @@ def RIOcards(tree, RIOnum):
     tree.addNode(cardpath)
     AddNodeWithTag(tree, cardpath + ':START_T', 'NUMERIC', 'START_RCARD' +
                    str(RIOnum))
+    AddUnit(tree, cardpath + ':START_T', 's')
     AddNodeWithTag(tree, cardpath + ':END_T', 'NUMERIC', 'END_RCARD' +
                    str(RIOnum))
+    AddUnit(tree, cardpath + ':END_T', 's')
     AddNodeWithTag(tree, cardpath + ':SAMPLE_RATE', 'NUMERIC', 
                    'SAMPLERATE_RCARD' + str(RIOnum))
+    AddUnit(tree, cardpath + ':SAMPLE_RATE', 's^-1')
     AddNodeWithTag(tree, cardpath + ':DELTA_T', 'NUMERIC', 'DELTAT_RCARD' +
                    str(RIOnum))
+    AddUnit(tree, cardpath + ':DELTA_T', 's')
     AddNodeWithTag(tree, cardpath + ':N_SAMPLES', 'NUMERIC',
                    'NUMBERSAMPLES_RCARD' + str(RIOnum))
     AddNodeWithTag(tree, cardpath + ':FPGA_NAME', 'TEXT', 'FPGANAME_RCARD' +
@@ -175,21 +185,17 @@ def RIOchannels(tree, RIOnum, CHnum):
                    + str(RIOnum) + 'CH' + str(CHnum))
     AddNodeWithTag(tree, chanpath + ':VOLT_RANGE', 'NUMERIC', 'VOLTRANGE_RCARD' 
                    + str(RIOnum) + 'CH' + str(CHnum))
+    AddUnit(tree, chanpath + ':VOLT_RANGE', 'V')
     AddNodeWithTag(tree, chanpath + ':NI_NAME', 'TEXT', 'NINAME_RCARD' 
                    + str(RIOnum) + 'CH' + str(CHnum))
     AddNodeWithTag(tree, chanpath + ':LPFILT_FREQ', 'NUMERIC',
                    'LP_FILT_FREQ_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
+    AddUnit(tree, chanpath + ':LPFILT_FREQ', 's^-1')
     AddNodeWithTag(tree, chanpath + ':HPFILT_FREQ', 'NUMERIC',
                    'HP_FILT_FREQ_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
+    AddUnit(tree, chanpath + ':HPFILT_FREQ', 's^-1')
     AddNodeWithTag(tree, chanpath + ':GAIN', 'NUMERIC', 'GAIN_RCARD' 
                    + str(RIOnum) + 'CH' + str(CHnum))
-
-
-def DATAcards(tree, DAQnum):
-    """
-    This function creates the tree structure for all DAQ cards. INCOMPLETE!
-    """
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum))
 
 
 def DATAchannels_D(tree, DAQnum, CHnum):
@@ -201,10 +207,13 @@ def DATAchannels_D(tree, DAQnum, CHnum):
                    + str(DAQnum) + 'CH' + str(CHnum))
     AddNodeWithTag(tree, datapath + '.DATA:TIME_VALUES', 'NUMERIC', 
                    'NITIMEVALUES_DCARD' + str(DAQnum) + 'CH' + str(CHnum))
+    AddUnit(tree, datapath + '.DATA:TIME_VALUES', 's')
     AddNodeWithTag(tree, datapath + '.DATA:DATA_VALUES', 'NUMERIC', 
                    'NIDATAVALUES_DCARD' + str(DAQnum) + 'CH' + str(CHnum))
+    AddUnit(tree, datapath + '.DATA:DATA_VALUES', 'V')
     AddNodeWithTag(tree, datapath + '.DATA:DELTA_T', 'NUMERIC', 
                    'NIDELTAT_DCARD' + str(DAQnum) + 'CH' + str(CHnum))
+    AddUnit(tree, datapath + '.DATA:DELTA_T', 's')
                    
 def DATAchannels_R(tree, RIOnum, CHnum):
     """
@@ -215,20 +224,25 @@ def DATAchannels_R(tree, RIOnum, CHnum):
                    + str(RIOnum) + 'CH' + str(CHnum))
     AddNodeWithTag(tree, datapath + ':COUNTS', 'SIGNAL', 'NIRAWCOUNTS_RCARD' 
                    + str(RIOnum) + 'CH' + str(CHnum))
-
+    
     AddNodeWithTag(tree, datapath + '.VOLTAGE:TIME_VALUES', 'NUMERIC', 
                    'VTIMEVALUES_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
+    AddUnit(tree, datapath + '.VOLTAGE:TIME_VALUES', 's')
     AddNodeWithTag(tree, datapath + '.VOLTAGE:DATA_VALUES', 'NUMERIC', 
                    'VDATAVALUES_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
+    AddUnit(tree, datapath + '.VOLTAGE:DATA_VALUES', 'V')
     AddNodeWithTag(tree, datapath + '.VOLTAGE:DELTA_T', 'NUMERIC', 
                    'VDELTAT_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
+    AddUnit(tree, datapath + '.VOLTAGE:DELTA_T', 's')
 
     AddNodeWithTag(tree, datapath + '.COUNTS:TIME_VALUES', 'NUMERIC', 
                    'CTIMEVALUES_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
+    AddUnit(tree, datapath + '.COUNTS:TIME_VALUES', 's')
     AddNodeWithTag(tree, datapath + '.COUNTS:DATA_VALUES', 'NUMERIC', 
                    'CDATAVALUES_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
     AddNodeWithTag(tree, datapath + '.COUNTS:DELTA_T', 'NUMERIC', 
                    'CDELTAT_RCARD' + str(RIOnum) + 'CH' + str(CHnum))
+    AddUnit(tree, datapath + '.COUNTS:DELTA_T', 's')
 
 def DIOchannels(tree, DIOnum):
     """
@@ -258,20 +272,50 @@ def scopechannels(tree, scope_chan):
     tree.addNode(settingpath)
     AddNodeWithTag(tree, datapath + ':TIME', 'NUMERIC', 'TIMEVALUES_TEKCH' +
                    str(scope_chnum))
+    AddUnit(tree, datapath + ':TIME', 's')
     AddNodeWithTag(tree, datapath + ':VOLTAGE', 'NUMERIC',
                    'VOLTAGEVALUES_TEKCH' + str(scope_chnum))
+    AddUnit(tree, datapath + ':VOLTAGE', 'V')
     AddNodeWithTag(tree, settingpath + ':N_SAMPLES', 'NUMERIC',
                    'NSAMPLES_TEKCH' + str(scope_chnum))
     AddNodeWithTag(tree, settingpath + ':DELTA_T', 'NUMERIC', 'DT_TEKCH' +
                    str(scope_chnum))
+    AddUnit(tree, settingpath + ':DELTA_T', 's')
     AddNodeWithTag(tree, settingpath + ':N_PRE_SAMP', 'NUMERIC',
                    'NPRESAMP_TEKCH' + str(scope_chnum))
     AddNodeWithTag(tree, settingpath + ':TIME_DIV', 'NUMERIC',
                    'TIMEPERDIV_TEKCH' + str(scope_chnum))
+    AddUnit(tree, settingpath + ':TIME_DIV', 's/div')
     AddNodeWithTag(tree, settingpath + ':VOLT_DIV', 'NUMERIC',
                    'VOLTSPERDIV_TEKCH' + str(scope_chnum))
+    AddUnit(tree, settingpath + ':VOLT_DIV', 'V/div')
     AddNodeWithTag(tree, settingpath + ':PROBE_ATTEN', 'NUMERIC',
                    'PROBEATTENUATION_TEKCH' + str(scope_chnum))
+
+
+def camsettings(tree):
+    """
+    This function builds the general settings for the PIMAX3 camera.
+    """
+    settingspath = '.CAMERAS.PIMAX3.CAM_SETTING'
+    AddNodeWithTag(tree, '.CAMERAS.PIMAX3.RAW:HEADER', 'TEXT', 'PIMAX_RAWHEADER')
+    AddNodeWithTag(tree, '.CAMERAS.PIMAX3.RAW:FOOTER', 'TEXT', 'PIMAX_RAWFOOTER')
+    AddNodeWithTag(tree, settingspath + ':NUMERFRAMES', 'NUMERIC',
+                   'NUMBER_PFRAMES')
+    AddNodeWithTag(tree, settingspath + ':INTENS_ON', 'TEXT',
+                   'PIMAX_INTENSIFIER_STATE')
+    AddNodeWithTag(tree, settingspath + '.INTENS_ON:GAIN', 'NUMERIC',
+                   'PIMAX_INTENSIFIER_GAIN')
+    tree.addNode(settingspath + '.PHOSDECAY')
+    AddNodeWithTag(tree, settingspath + '.PHOSDECAY:FACTOR', 'NUMERIC',
+                   'PHOSPHOR_DECAY_FACTOR')
+    AddNodeWithTag(tree, settingspath + '.PHOSDECAY:DELAY', 'NUMERIC',
+                   'PHOSPHOR_DECAY_DELAY')
+    AddUnit(tree, settingspath + '.PHOSDECAY.DELAY', 's')
+    AddNodeWithTag(tree, settingspath + '.PHOSDECAY:RES', 'NUMERIC',
+                   'PHOSPHOR_DECAY_RES')
+    AddUnit(tree, settingspath + '.PHOSDECAY.RES', 's')
+    
 
 
 def camframes(tree, cam_frame):
@@ -286,6 +330,8 @@ def camframes(tree, cam_frame):
                    'PIMAX_FRAME' + str(cam_frame))
     AddNodeWithTag(tree, campath + '.FRAME_' + str(cam_frame) + ':EXPOSURE', 
                    'NUMERIC', 'EXPOSURE_PFRAME' + str(cam_frame))
+    AddUnit(tree, campath + '.FRAME_' + str(cam_frame) + ':EXPOSURE', 's')
     AddNodeWithTag(tree, campath + '.FRAME_' + str(cam_frame) + ':DELAY', 
-                   'NUMERIC', 'GATEDELAY_PFRAME' + str(cam_frame)) 
+                   'NUMERIC', 'GATEDELAY_PFRAME' + str(cam_frame))
+    AddUnit(tree, campath + '.FRAME_' + str(cam_frame) + ':DELAY', 's')
     
