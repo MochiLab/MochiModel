@@ -276,6 +276,8 @@ def scopechannels(tree, scope_chan):
     AddNodeWithTag(tree, datapath + ':VOLTAGE', 'NUMERIC',
                    'VOLTAGEVALUES_TEKCH' + str(scope_chnum))
     AddUnit(tree, datapath + ':VOLTAGE', 'V')
+    AddNodeWithTag(tree, settingpath + ':CHANNEL_NAME', 'NUMERIC',
+                   'CHANNEL_NAME_TEKCH' + str(scope_chnum))
     AddNodeWithTag(tree, settingpath + ':N_SAMPLES', 'NUMERIC',
                    'NSAMPLES_TEKCH' + str(scope_chnum))
     AddNodeWithTag(tree, settingpath + ':DELTA_T', 'NUMERIC', 'DT_TEKCH' +
@@ -302,6 +304,8 @@ def camsettings(tree):
     AddNodeWithTag(tree, '.CAMERAS.PIMAX3.RAW:FOOTER', 'TEXT', 'PIMAX_RAWFOOTER')
     AddNodeWithTag(tree, settingspath + ':NUMERFRAMES', 'NUMERIC',
                    'NUMBER_PFRAMES')
+    AddNodeWithTag(tree, settingspath + ':READOUT_MODE', 'TEXT',
+                   'PIMAX_READOUT_MODE')
     AddNodeWithTag(tree, settingspath + ':INTENS_ON', 'TEXT',
                    'PIMAX_INTENSIFIER_STATE')
     AddNodeWithTag(tree, settingspath + '.INTENS_ON:GAIN', 'NUMERIC',
@@ -315,7 +319,21 @@ def camsettings(tree):
     AddNodeWithTag(tree, settingspath + '.PHOSDECAY:RES', 'NUMERIC',
                    'PHOSPHOR_DECAY_RES')
     AddUnit(tree, settingspath + '.PHOSDECAY.RES', 's')
-    
+    tree.addNode(settingspath + '.SENSOR_CLEAN')
+    AddNodeWithTag(tree, settingspath + '.SENSOR_CLEAN:ENABLED', 'TEXT',
+                   'PIMAX_SENSOR_CLEANING')
+    AddNodeWithTag(tree, settingspath + '.SENSOR_CLEAN:UNTILTRIGGER', 'TEXT',
+                   'PIMAX_CLEANUNTILTRIGGER')
+    AddNodeWithTag(tree, settingspath + '.SENSOR_CLEAN:CYCLES', 'NUMERIC',
+                   'PIMAX_CLEANCYCLES')
+    AddNodeWithTag(tree, settingspath + '.SENSOR_CLEAN:CYCLEHEIGHT', 'NUMERIC',
+                   'PIMAX_CYCLEHEIGHT')
+    AddUnit(tree, settingspath + '.SENSOR_CLEAN:CYCLEHEIGHT', 'rows')
+    AddNodeWithTag(tree, settingspath + '.SENSOR_CLEAN:SECTHEIGHT', 'NUMERIC',
+                   'PIMAX_SECTIONHEIGHT')
+    AddUnit(tree, settingspath + '.SENSOR_CLEAN:SECTHEIGHT', 'rows')
+    AddNodeWithTag(tree, settingspath + '.SENSOR_CLEAN:SECTCOUNT', 'NUMERIC',
+                   'PIMAX_SECTIONCOUNT')
 
 
 def camframes(tree, cam_frame):
