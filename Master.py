@@ -24,6 +24,9 @@ cam_frames = 2
 """Initialize TOP node parent structure"""
 func.TreeInit(tree)
 
+"""Build Global Settings branch"""
+func.globalsettings(tree)
+
 """Build Timing child branch"""
 for i in xrange(TimeCard):
     func.TIMEcards(tree, i)
