@@ -268,9 +268,9 @@ def scopechannels(tree, scope_chan):
                    str(scope_chnum), 's')
     AddNumericWithUnit(tree, datapath + ':VOLTAGE', 'VOLTAGEVALUES_TEKCH' +
                        str(scope_chnum), 'V')
-    AddNodeWithTag(tree, settingpath + ':CHANNEL_NAME', 'NUMERIC',
+    AddNodeWithTag(tree, settingpath + ':CHANNEL_NAME', 'TEXT',
                    'CHANNEL_NAME_TEKCH' + str(scope_chnum))
-    AddNodeWithTag(tree, settingpath + ':GROUND_STATE', 'NUMERIC',
+    AddNodeWithTag(tree, settingpath + ':GROUND_STATE', 'TEXT',
                    'GROUND_STATE_TEKCH' + str(scope_chnum))
     AddNodeWithTag(tree, settingpath + ':N_SAMPLES', 'NUMERIC',
                    'NSAMPLES_TEKCH' + str(scope_chnum))
@@ -331,7 +331,6 @@ def camframes(tree, cam_frame):
     PI-MAX3 camera.
     """
     campath = '.CAMERAS.PIMAX3'
-    settingspath = '.CAMERAS.PIMAX3.CAM_SETTING'
     cam_frame = cam_frame + 1
     AddNodeWithTag(tree, campath + ':FRAME_' + str(cam_frame), 'NUMERIC',
                    'PIMAX_FRAME' + str(cam_frame))
