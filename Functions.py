@@ -357,6 +357,13 @@ def globalsettings(tree):
                        'torr')
     AddNumericWithUnit(tree, backpath + ':CRYOTEMP_V', 'GLOBE_CRYOTEMP_V', 'V')
     AddNumericWithUnit(tree, backpath + ':CRYOTEMP_K', 'GLOBE_CRYOTEMP_K', 'K')
+    tree.addNode(backpath + '.CRYOTEMP_K.CALIBRATION')
+    AddNodeWithTag(tree, backpath + '.CRYOTEMP_K.CALIBRATION:COMMENT', 'TEXT',
+                   'CRYOCALIBRATION_COMMENT')
+    AddNumericWithUnit(tree, backpath + '.CRYOTEMP_K.CALIBRATION:X',
+                       'CRYOCALIBRATION_X', 'V')
+    AddNumericWithUnit(tree, backpath + '.CRYOTEMP_K.CALIBRATION:Y',
+                       'CRYOCALIBRATION_Y', 'K')
         
     tree.addNode(puffpath)
     tree.addNode(puffpath + '.TYPE')
@@ -391,10 +398,24 @@ def globalsettings(tree):
                        'V')
     AddNumericWithUnit(tree, PSUpath + '.BANKS:PSU2', 'GLOBE_BANKVOLT_PSU2',
                        'V')
+    tree.addNode(PSUpath + '.BANKS.PSU2.TACH_CAL')
+    AddNodeWithTag(tree, PSUpath + '.BANKS.PSU2.TACH_CAL:COMMENT', 'TEXT',
+                   'TACHCAL_PSU2_COMMENT')
+    AddNumericWithUnit(tree, PSUpath + '.BANKS.PSU2.TACH_CAL:X',
+                       'TACHCAL_PSU2_X', 'V')
+    AddNumericWithUnit(tree, PSUpath + '.BANKS.PSU2.TACH_CAL:Y',
+                       'TACHCAL_PSU2_Y', 'Hz')
     AddNodeWithTag(tree, PSUpath + '.BANKS.PSU2:COUNTER', 'TEXT',
                    'TACH_PSU2_COUNTER')
     AddNumericWithUnit(tree, PSUpath + '.BANKS:PSU3', 'GLOBE_BANKVOLT_PSU3',
                        'V')
+    tree.addNode(PSUpath + '.BANKS.PSU3.TACH_CAL')
+    AddNodeWithTag(tree, PSUpath + '.BANKS.PSU3.TACH_CAL:COMMENT', 'TEXT',
+                   'TACHCAL_PSU3_COMMENT')
+    AddNumericWithUnit(tree, PSUpath + '.BANKS.PSU3.TACH_CAL:X',
+                       'TACHCAL_PSU3_X', 'V')
+    AddNumericWithUnit(tree, PSUpath + '.BANKS.PSU3.TACH_CAL:Y',
+                       'TACHCAL_PSU3_Y', 'Hz')
     AddNodeWithTag(tree, PSUpath + '.BANKS.PSU3:COUNTER', 'TEXT',
                    'TACH_PSU3_COUNTER')
     tree.addNode(PSUpath + '.BIAS')
