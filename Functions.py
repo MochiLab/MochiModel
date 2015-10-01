@@ -189,6 +189,8 @@ def RIOchannels(tree, RIOnum, CHnum):
                    + str(RIOnum) + 'CH' + str(CHnum), 'V')
     AddNodeWithTag(tree, chanpath + ':NI_NAME', 'TEXT', 'NINAME_RCARD' 
                    + str(RIOnum) + 'CH' + str(CHnum))
+    AddNumericWithUnit(tree, chanpath + ':ATTENUATION', 'ATTENUATION_RCARD' +
+                       str(RIOnum) + 'CH' + str(CHnum), 'dB')
     AddNumericWithUnit(tree, chanpath + ':LPFILT_FREQ', 'LP_FILT_FREQ_RCARD' +
                        str(RIOnum) + 'CH' + str(CHnum), 's^-1')
     AddNumericWithUnit(tree, chanpath + ':HPFILT_FREQ', 'HP_FILT_FREQ_RCARD' +
