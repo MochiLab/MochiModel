@@ -40,23 +40,21 @@ def AddNumericWithUnit(tree, nodepath, tag, unit):
     
 def TreeInit(tree):
     """
-    Initializes the TOP node structure. Two branches: SETTINGS and NI_DAQ
+    Initializes the TOP node structure for branches that require looping.
     """
-    """ Settings/NI_DAQ """
+    """ Settings/NI_6133 """
     tree.addNode('.SETTINGS')
     tree.addNode('.SETTINGS.EXPERIMENT')
     tree.addNode('.SETTINGS.NI')
-    tree.addNode('.SETTINGS.NI.TIMING')
-    tree.addNode('.SETTINGS.NI.DAQ')
-    tree.addNode('.NI_DAQ')
-    tree.addNode('.NI_RIO')
-    tree.addNode('.SETTINGS.NI.DIO')
-    tree.addNode('.TEK_SCOPE')
-    tree.addNode('.CAMERAS')
-    tree.addNode('.CAMERAS.PIMAX3')
-    tree.addNode('.CAMERAS.PIMAX3.RAW')
-    tree.addNode('.CAMERAS.PIMAX3.CAM_SETTING')
-    tree.addNode('.CAMERAS.IMACON')
+    tree.addNode('.SETTINGS.NI.NI_6602_TIME')
+    tree.addNode('.SETTINGS.NI.NI_6133')
+    tree.addNode('.NI_6133')
+    tree.addNode('.NI_FPGA')
+    tree.addNode('.SETTINGS.NI.NI_6133_DIO')
+    tree.addNode('.TEK_2024B')
+    tree.addNode('.PIMAX3')
+    tree.addNode('.PIMAX3.RAW')
+    tree.addNode('.PIMAX3.CAM_SETTING')
     """ Single-valued member nodes """
     AddNodeWithTag(tree,'.SETTINGS.EXPERIMENT:SHOT_DATE','TEXT',
                    'SHOTDATEANDTIME')
@@ -68,26 +66,26 @@ def TreeInit(tree):
                    'SHOTNUMBER')
     AddNodeWithTag(tree,'.SETTINGS.EXPERIMENT:PROG_VERSION','TEXT',
                    'PROGRAM_VERSION')
-    AddNodeWithTag(tree, '.TEK_SCOPE:RAW', 'TEXT', 'RAWTEKSCOPE')
+    AddNodeWithTag(tree, '.TEK_2024B:RAW', 'TEXT', 'RAWTEKSCOPE')
     
 
 def TIMEcards(tree, TIMEnum):
     """
-    Builds the node structure for the timing cards.
+    Builds the node structure for the NI PXI-6602 timing cards.
     """
-    tree.addNode('.SETTINGS.NI.TIMING.TCARD_' + str(TIMEnum))
-    tree.addNode('.SETTINGS.NI.TIMING.TCARD_' + str(TIMEnum) +
+    tree.addNode('.SETTINGS.NI.NI_6602_TIME.TCARD_' + str(TIMEnum))
+    tree.addNode('.SETTINGS.NI.NI_6602_TIME.TCARD_' + str(TIMEnum) +
                  '.TCARD_GLOBAL')
-    AddNodeWithTag(tree, '.SETTINGS.NI.TIMING.TCARD_' + str(TIMEnum) +
+    AddNodeWithTag(tree, '.SETTINGS.NI.NI_6602_TIME.TCARD_' + str(TIMEnum) +
                  '.TCARD_GLOBAL:SLOT_NUMBER', 'TEXT', 'TIMESLOTNUM_CARD' +
                  str(TIMEnum))
 
 
 def TIMEchannels(tree, TIMEnum, CHnum):
     """
-    Builds the node structure for the timing cards' channels.
+    Builds the node structure for the NI PXI-6602 timing cards' channels.
     """
-    chanpath = ('.SETTINGS.NI.TIMING.TCARD_'
+    chanpath = ('.SETTINGS.NI.NI_6602_TIME.TCARD_'
                  + str(TIMEnum) + '.CHANNEL_' + str(CHnum))
     tree.addNode(chanpath)
     AddNodeWithTag(tree, chanpath + ':ACTIVE', 'NUMERIC', 'TIMACTIVE_CARD' +
@@ -104,10 +102,10 @@ def TIMEchannels(tree, TIMEnum, CHnum):
 
 def DAQcards(tree, DAQnum):
     """
-    This function creates the tree structure for all DAQ cards.
+    This function creates the tree structure for all NI PXI-6133 DAQ cards.
     """
-    cardpath = ('.NI_DAQ.DAQ_' + str(DAQnum) + '.DCARD_GLOBAL')
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum))
+    cardpath = ('.NI_6133.DAQ_' + str(DAQnum) + '.DCARD_GLOBAL')
+    tree.addNode('.NI_6133.DAQ_' + str(DAQnum))
     tree.addNode(cardpath)
     AddNumericWithUnit(tree, cardpath + ':START_T', 'START_DCARD' +
                        str(DAQnum), 's')
@@ -129,11 +127,11 @@ def DAQcards(tree, DAQnum):
 
 def DAQchannels(tree, DAQnum, CHnum):
     """
-    This function creates the tree structure for a given
+    This function creates the tree structure for a given PXI-6133
     DAQ channel by reading the variable DAQnum.
     """
-    tree.addNode('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum))
-    chanpath = ('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum)
+    tree.addNode('.NI_6133.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum))
+    chanpath = ('.NI_6133.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum)
                  + '.CHAN_SETTING')
     tree.addNode(chanpath)
     AddNodeWithTag(tree, chanpath + ':ACTIVE', 'NUMERIC', 'DAQTIVE_DCARD' +
@@ -148,10 +146,11 @@ def DAQchannels(tree, DAQnum, CHnum):
 
 def RIOcards(tree, RIOnum):
     """
-    This function creates the tree structure for all RIO cards.
+    This function creates the tree structure for all NI PXIe-7962R FPGA RIO 
+    cards with NI 5752 digitizer adapter.
     """
-    cardpath = ('.NI_RIO.RIO_' + str(RIOnum) + '.RCARD_GLOBAL')
-    tree.addNode('.NI_RIO.RIO_' + str(RIOnum))
+    cardpath = ('.NI_FPGA.RIO_' + str(RIOnum) + '.RCARD_GLOBAL')
+    tree.addNode('.NI_FPGA.RIO_' + str(RIOnum))
     tree.addNode(cardpath)
     AddNumericWithUnit(tree, cardpath + ':START_T', 'START_RCARD' +
                    str(RIOnum), 's')
@@ -178,8 +177,8 @@ def RIOchannels(tree, RIOnum, CHnum):
     This function creates the tree structure for a given RIO channel by
     reading the variable RIOnum.
     """
-    tree.addNode('.NI_RIO.RIO_' + str(RIOnum) + '.CHANNEL_' + str(CHnum))
-    chanpath = ('.NI_RIO.RIO_' + str(RIOnum) + '.CHANNEL_' + str(CHnum)
+    tree.addNode('.NI_FPGA.RIO_' + str(RIOnum) + '.CHANNEL_' + str(CHnum))
+    chanpath = ('.NI_FPGA.RIO_' + str(RIOnum) + '.CHANNEL_' + str(CHnum)
                  + '.CHAN_SETTING')
     tree.addNode(chanpath)
     AddNodeWithTag(tree, chanpath + ':ACTIVE', 'NUMERIC', 'RIAQTIVE_RCARD' +
@@ -202,7 +201,7 @@ def DATAchannels_D(tree, DAQnum, CHnum):
     """
     This function creates the tree structure for all DAQ cards.
     """
-    datapath = ('.NI_DAQ.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum))
+    datapath = ('.NI_6133.DAQ_' + str(DAQnum) + '.CHANNEL_' + str(CHnum))
     AddNodeWithTag(tree, datapath + ':DATA', 'SIGNAL', 'NIRAWDATA_DCARD' 
                    + str(DAQnum) + 'CH' + str(CHnum))
     AddNumericWithUnit(tree, datapath + '.DATA:TIME_VALUES', 
@@ -217,7 +216,7 @@ def DATAchannels_R(tree, RIOnum, CHnum):
     """
     This function creates the tree structure for all DAQ card data streams.
     """
-    datapath = ('.NI_RIO.RIO_' + str(RIOnum) + '.CHANNEL_' + str(CHnum))
+    datapath = ('.NI_FPGA.RIO_' + str(RIOnum) + '.CHANNEL_' + str(CHnum))
     AddNodeWithTag(tree, datapath + ':VOLTAGE', 'SIGNAL', 'NIRAWDATA_RCARD' 
                    + str(RIOnum) + 'CH' + str(CHnum))
     AddNodeWithTag(tree, datapath + ':COUNTS', 'SIGNAL', 'NIRAWCOUNTS_RCARD' 
@@ -238,16 +237,27 @@ def DATAchannels_R(tree, RIOnum, CHnum):
                        str(RIOnum) + 'CH' + str(CHnum), 's')
 
 
-def DIOchannels(tree, DIOnum):
+def DIOcards(tree, DAQcard):
+    """
+    This function builds the necessary tree nodes for all available DIO
+    channels on the 6133 DAQ cards. Note that only DAQ_0 is wired up to fiber
+    I/O (as of 9/30/15).
+    """
+    diocardpath = '.SETTINGS.NI.NI_6133_DIO'
+    tree.addNode(diocardpath + '.DAQ_' + str(DAQcard))
+
+
+def DIOchannels(tree, DAQcard, DIOnum):
     """
     This function creates the tree nodes necessary for storing DIO information.
     """
-    tree.addNode('.SETTINGS.NI.DIO.CHANNEL_' + str(DIOnum))
-    diopath = ('.SETTINGS.NI.DIO.CHANNEL_' + str(DIOnum))
-    AddNodeWithTag(tree, diopath + ':CHANNEL_NAME', 'TEXT', 'USERNAME_DIOCH' 
-                   + str(DIOnum))
-    AddNodeWithTag(tree, diopath + ':NI_NAME', 'TEXT', 'NINAME_DIOCH' 
-                   + str(DIOnum))
+    diocardpath = '.SETTINGS.NI.NI_6133_DIO.DAQ_' + str(DAQcard)
+    diopath = diocardpath + '.CHANNEL_' + str(DIOnum)
+    tree.addNode(diopath)
+    AddNodeWithTag(tree, diopath + ':CHANNEL_NAME', 'TEXT',
+                   'USERNAME_DIOCARD' + str(DAQcard) + 'CH' + str(DIOnum))
+    AddNodeWithTag(tree, diopath + ':NI_NAME', 'TEXT',
+                   'NINAME_DIOCARD' + str(DAQcard) + 'CH' + str(DIOnum))
                    
 
 def scopechannels(tree, scope_chan):
@@ -255,7 +265,7 @@ def scopechannels(tree, scope_chan):
     This function builds the Tektronix oscilloscope data/setting nodes.
     """
     scope_chnum = scope_chan + 1
-    chanpath = '.TEK_SCOPE.CHANNEL_' + str(scope_chnum)
+    chanpath = '.TEK_2024B.CHANNEL_' + str(scope_chnum)
     datapath = chanpath + '.DATA'
     settingpath = chanpath + '.SETTINGS'
     tree.addNode(chanpath)
@@ -290,10 +300,10 @@ def camsettings(tree):
     """
     This function builds the general settings for the PIMAX3 camera.
     """
-    settingspath = '.CAMERAS.PIMAX3.CAM_SETTING'
-    AddNodeWithTag(tree, '.CAMERAS.PIMAX3.RAW:HEADER', 'TEXT',
+    settingspath = '.PIMAX3.CAM_SETTING'
+    AddNodeWithTag(tree, '.PIMAX3.RAW:HEADER', 'TEXT',
                    'PIMAX_RAWHEADER')
-    AddNodeWithTag(tree, '.CAMERAS.PIMAX3.RAW:FOOTER', 'TEXT',
+    AddNodeWithTag(tree, '.PIMAX3.RAW:FOOTER', 'TEXT',
                    'PIMAX_RAWFOOTER')
     AddNodeWithTag(tree, settingspath + ':NUMERFRAMES', 'NUMERIC',
                    'NUMBER_PFRAMES')
@@ -330,7 +340,7 @@ def camframes(tree, cam_frame):
     This function builds the storage nodes for the images produced by the
     PI-MAX3 camera.
     """
-    campath = '.CAMERAS.PIMAX3'
+    campath = '.PIMAX3'
     cam_frame = cam_frame + 1
     AddNodeWithTag(tree, campath + ':FRAME_' + str(cam_frame), 'NUMERIC',
                    'PIMAX_FRAME' + str(cam_frame))
@@ -398,26 +408,8 @@ def globalsettings(tree):
                        'V')
     AddNumericWithUnit(tree, PSUpath + '.BANKS:PSU2', 'GLOBE_BANKVOLT_PSU2',
                        'V')
-    tree.addNode(PSUpath + '.BANKS.PSU2.TACH_CAL')
-    AddNodeWithTag(tree, PSUpath + '.BANKS.PSU2.TACH_CAL:COMMENT', 'TEXT',
-                   'TACHCAL_PSU2_COMMENT')
-    AddNumericWithUnit(tree, PSUpath + '.BANKS.PSU2.TACH_CAL:X',
-                       'TACHCAL_PSU2_X', 'V')
-    AddNumericWithUnit(tree, PSUpath + '.BANKS.PSU2.TACH_CAL:Y',
-                       'TACHCAL_PSU2_Y', 'Hz')
-    AddNodeWithTag(tree, PSUpath + '.BANKS.PSU2:COUNTER', 'TEXT',
-                   'TACH_PSU2_COUNTER')
     AddNumericWithUnit(tree, PSUpath + '.BANKS:PSU3', 'GLOBE_BANKVOLT_PSU3',
                        'V')
-    tree.addNode(PSUpath + '.BANKS.PSU3.TACH_CAL')
-    AddNodeWithTag(tree, PSUpath + '.BANKS.PSU3.TACH_CAL:COMMENT', 'TEXT',
-                   'TACHCAL_PSU3_COMMENT')
-    AddNumericWithUnit(tree, PSUpath + '.BANKS.PSU3.TACH_CAL:X',
-                       'TACHCAL_PSU3_X', 'V')
-    AddNumericWithUnit(tree, PSUpath + '.BANKS.PSU3.TACH_CAL:Y',
-                       'TACHCAL_PSU3_Y', 'Hz')
-    AddNodeWithTag(tree, PSUpath + '.BANKS.PSU3:COUNTER', 'TEXT',
-                   'TACH_PSU3_COUNTER')
     tree.addNode(PSUpath + '.BIAS')
     AddNumericWithUnit(tree, PSUpath + '.BIAS:BIAS1', 'GLOBE_BIASVOLT_BIAS1',
                        'V')
@@ -432,5 +424,51 @@ def globalsettings(tree):
                    'GLOBE_PUFF_PSU1_VOLT_CH2', 'V')
     AddNumericWithUnit(tree, PSUpath + '.PUFF_PSU.PUFF1:CH3', 
                    'GLOBE_PUFF_PSU1_VOLT_CH3', 'V')
+    
+    
+def PSUpanels(tree, PSUnum):
+    """
+    Builds the required nodes for PSU2/3 LabVIEW panel interaction. Mainly
+    used for counter storage/loading, and rev/tach settings.
+    """
+    tree.addNode('.SETTINGS.EXPERIMENT.BANK_CONTROL')
+    for i in range(PSUnum):
+        tree.addNode('.SETTINGS.EXPERIMENT.BANK_CONTROL.PSU' + str(i+1))
+    for j in range(2):
+        psupath = '.SETTINGS.EXPERIMENT.BANK_CONTROL.PSU' + str(j+2)
+        AddNumericWithUnit(tree, psupath + ':VDEMAND', 'PSU' + str(j+2) +
+                           '_VDEMAND', 'V')
+        AddNumericWithUnit(tree, psupath + ':VREAD', 'PSU' + str(j+2) +
+                           '_VREAD', 'V')
+        
+        tree.addNode(psupath + '.COUNTERS')
+        AddNodeWithTag(tree, psupath + '.COUNTERS:CHARGE', 'TEXT',
+                       'PSU' + str(j+2) + '_CHARGECOUNTER')
+        AddNodeWithTag(tree, psupath + '.COUNTERS:DUMP', 'TEXT',
+                       'PSU' + str(j+2) + '_DUMPCOUNTER')
+        AddNodeWithTag(tree, psupath + '.COUNTERS:HV_ARM', 'TEXT',
+                       'PSU' + str(j+2) + '_HVARMCOUNTER')
+        AddNodeWithTag(tree, psupath + '.COUNTERS:HV_ON', 'TEXT',
+                       'PSU' + str(j+2) + '_HVONCOUNTER')
+        AddNodeWithTag(tree, psupath + '.COUNTERS:TACH', 'TEXT',
+                       'PSU' + str(j+2) + '_TACHCOUNTER')
+        AddNodeWithTag(tree, psupath + '.COUNTERS:REVTACH', 'TEXT',
+                       'PSU' + str(j+2) + '_REVTACHCOUNTER')
+        
+        tree.addNode(psupath + '.TACH_CAL')
+        AddNodeWithTag(tree, psupath + '.TACH_CAL:COMMENT', 'TEXT',
+                       'PSU' + str(j+2) + '_TACHCAL_COMMENT')
+        AddNumericWithUnit(tree, psupath + '.TACH_CAL:X',
+                           'PSU' + str(j+2) + '_TACHCAL_X', 'V')
+        AddNumericWithUnit(tree, psupath + '.TACH_CAL:Y',
+                           'PSU' + str(j+2) + '_TACHCAL_Y', 'Hz')
+        
+        tree.addNode(psupath + '.REVTACH_CAL')
+        AddNodeWithTag(tree, psupath + '.REVTACH_CAL:COMMENT', 'TEXT',
+                       'PSU' + str(j+2) + '_REVTACHCAL_COMMENT')
+        AddNumericWithUnit(tree, psupath + '.REVTACH_CAL:X',
+                           'PSU' + str(j+2) + '_REVTACHCAL_X', 'V')
+        AddNumericWithUnit(tree, psupath + '.REVTACH_CAL:Y',
+                           'PSU' + str(j+2) + '_REVTACHCAL_Y', 'Hz')
     
     
