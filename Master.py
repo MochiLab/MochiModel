@@ -27,6 +27,9 @@ func.TreeInit(tree)
 """Build Global Settings branch"""
 func.globalsettings(tree)
 
+"""Build PSU LV panel interaction branch"""
+func.PSUpanels(tree, 3)
+
 """Build Timing child branch"""
 for i in xrange(TimeCard):
     func.TIMEcards(tree, i)
@@ -56,8 +59,10 @@ for i in xrange(RIOcard):
         func.DATAchannels_R(tree, i, j)
         
 """Build DIO relay control branch"""
-for i in range(DIOchannel):
-    func.DIOchannels(tree, i)
+for i in range(DAQcard):
+    func.DIOcards(tree, i)
+    for j in range(DIOchannel):
+        func.DIOchannels(tree, i, j)
     
 """Build oscilloscope storage branch"""
 for i in range(scope_chan):
