@@ -438,8 +438,8 @@ def PSUpanels(tree, PSUnum):
         psupath = '.SETTINGS.EXPERIMENT.BANK_CONTROL.PSU' + str(j+2)
         AddNumericWithUnit(tree, psupath + ':VDEMAND', 'PSU' + str(j+2) +
                            '_VDEMAND', 'V')
-        AddNumericWithUnit(tree, psupath + ':VREAD', 'PSU' + str(j+2) +
-                           '_VREAD', 'V')
+        AddNumericWithUnit(tree, psupath + ':VMEASURE', 'PSU' + str(j+2) +
+                           '_VMEASURE', 'V')
         
         tree.addNode(psupath + '.COUNTERS')
         AddNodeWithTag(tree, psupath + '.COUNTERS:CHARGE', 'TEXT',
