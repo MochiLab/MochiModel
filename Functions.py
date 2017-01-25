@@ -310,28 +310,28 @@ def scopechannels1(tree, scope_chan):
     datapath = chanpath + '.DATA'
     settingpath = chanpath + '.SETTINGS'
     tree.addNode(chanpath)
-    AddNodeWithTag(tree, chanpath + ':STATE', 'TEXT', 'STATE_TEK1_CH' +
+    AddNodeWithTag(tree, chanpath + ':STATE', 'TEXT', 'STATE_TEK1CH' +
                    str(scope_chnum))
-    AddNodeWithTag(tree, chanpath + ':DATA', 'SIGNAL', 'DATA_TEK1_CH' +
+    AddNodeWithTag(tree, chanpath + ':DATA', 'SIGNAL', 'DATA_TEK1CH' +
                    str(scope_chnum))
     tree.addNode(settingpath)
-    AddNumericWithUnit(tree, datapath + ':TIME', 'TIMEVALUES_TEK1_CH' +
+    AddNumericWithUnit(tree, datapath + ':TIME', 'TIMEVALUES_TEK1CH' +
                    str(scope_chnum), 's')
-    AddNumericWithUnit(tree, datapath + ':VOLTAGE', 'VOLTAGEVALUES_TEK1_CH' +
+    AddNumericWithUnit(tree, datapath + ':VOLTAGE', 'VOLTAGEVALUES_TEK1CH' +
                        str(scope_chnum), 'V')
     AddNodeWithTag(tree, settingpath + ':CHANNEL_NAME', 'TEXT',
-                   'CHANNEL_NAME_TEK1_CH' + str(scope_chnum))
+                   'CHANNEL_NAME_TEK1CH' + str(scope_chnum))
     AddNodeWithTag(tree, settingpath + ':GROUND_STATE', 'TEXT',
-                   'GROUND_STATE_TEK1_CH' + str(scope_chnum))
+                   'GROUND_STATE_TEK1CH' + str(scope_chnum))
     AddNodeWithTag(tree, settingpath + ':N_SAMPLES', 'NUMERIC',
-                   'NSAMPLES_TEK1_CH' + str(scope_chnum))
+                   'NSAMPLES_TEK1CH' + str(scope_chnum))
     AddNumericWithUnit(tree, settingpath + ':DELTA_T', 'DT_TEK1_CH' +
                    str(scope_chnum), 's')
     AddNodeWithTag(tree, settingpath + ':N_PRE_SAMP', 'NUMERIC',
-                   'NPRESAMP_TEK1_CH' + str(scope_chnum))
-    AddNumericWithUnit(tree, settingpath + ':TIME_DIV', 'TIMEPERDIV_TEK1_CH' +
+                   'NPRESAMP_TEK1CH' + str(scope_chnum))
+    AddNumericWithUnit(tree, settingpath + ':TIME_DIV', 'TIMEPERDIV_TEK1CH' +
                        str(scope_chnum), 's/div')
-    AddNumericWithUnit(tree, settingpath + ':VOLT_DIV', 'VOLTSPERDIV_TEK1_CH' +
+    AddNumericWithUnit(tree, settingpath + ':VOLT_DIV', 'VOLTSPERDIV_TEK1CH' +
                        str(scope_chnum), 'V/div')
     AddNodeWithTag(tree, settingpath + ':PROBE_ATTEN', 'NUMERIC',
                    'PROBEATTENUATION_TEK1CH' + str(scope_chnum))
