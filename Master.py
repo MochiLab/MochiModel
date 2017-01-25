@@ -9,7 +9,7 @@ import MDSplus as mds
 import Functions as func
 reload(func)
 
-tree = mds.Tree(tree='proto_tree', shot=-1, mode='New')
+tree = mds.Tree(tree='op_tree', shot=-1, mode='New')
 
 DAQcard = 3
 DAQchannel = 8
@@ -64,9 +64,13 @@ for i in range(DAQcard):
     for j in range(DIOchannel):
         func.DIOchannels(tree, i, j)
     
-"""Build oscilloscope storage branch"""
+"""Build TEK oscilloscope storage branch"""
 for i in range(scope_chan):
     func.scopechannels(tree, i)
+    
+"""Build TEK1 oscilloscope storage branch"""
+for i in range(scope_chan):
+    func.scopechannels1(tree, i)
 
 """Build camera storage branch"""
 func.camsettings(tree)

@@ -52,6 +52,8 @@ def TreeInit(tree):
     tree.addNode('.NI_FPGA')
     tree.addNode('.SETTINGS.NI.NI_6133_DIO')
     tree.addNode('.TEK_2024B')
+    tree.addNode('.TEK_2024B.TEK')
+    tree.addNode('.TEK_2024B.TEK1')
     tree.addNode('.PIMAX3')
     tree.addNode('.PIMAX3.RAW')
     tree.addNode('.PIMAX3.CAM_SETTING')
@@ -66,7 +68,8 @@ def TreeInit(tree):
                    'SHOTNUMBER')
     AddNodeWithTag(tree,'.SETTINGS.EXPERIMENT:PROG_VERSION','TEXT',
                    'PROGRAM_VERSION')
-    AddNodeWithTag(tree, '.TEK_2024B:RAW', 'TEXT', 'RAWTEKSCOPE')
+    AddNodeWithTag(tree, '.TEK_2024B.TEK:RAW', 'TEXT', 'RAWTEKSCOPE')
+    AddNodeWithTag(tree, '.TEK_2024B.TEK1:RAW', 'TEXT', 'RAWTEKSCOPE1')
     
 
 def TIMEcards(tree, TIMEnum):
@@ -267,7 +270,7 @@ def scopechannels(tree, scope_chan):
     This function builds the Tektronix oscilloscope data/setting nodes.
     """
     scope_chnum = scope_chan + 1
-    chanpath = '.TEK_2024B.CHANNEL_' + str(scope_chnum)
+    chanpath = '.TEK_2024B.TEK.CHANNEL_' + str(scope_chnum)
     datapath = chanpath + '.DATA'
     settingpath = chanpath + '.SETTINGS'
     tree.addNode(chanpath)
@@ -296,6 +299,42 @@ def scopechannels(tree, scope_chan):
                        str(scope_chnum), 'V/div')
     AddNodeWithTag(tree, settingpath + ':PROBE_ATTEN', 'NUMERIC',
                    'PROBEATTENUATION_TEKCH' + str(scope_chnum))
+
+
+def scopechannels1(tree, scope_chan):
+    """
+    This function builds the Tektronix oscilloscope data/setting nodes.
+    """
+    scope_chnum = scope_chan + 1
+    chanpath = '.TEK_2024B.TEK1.CHANNEL_' + str(scope_chnum)
+    datapath = chanpath + '.DATA'
+    settingpath = chanpath + '.SETTINGS'
+    tree.addNode(chanpath)
+    AddNodeWithTag(tree, chanpath + ':STATE', 'TEXT', 'STATE_TEK1_CH' +
+                   str(scope_chnum))
+    AddNodeWithTag(tree, chanpath + ':DATA', 'SIGNAL', 'DATA_TEK1_CH' +
+                   str(scope_chnum))
+    tree.addNode(settingpath)
+    AddNumericWithUnit(tree, datapath + ':TIME', 'TIMEVALUES_TEK1_CH' +
+                   str(scope_chnum), 's')
+    AddNumericWithUnit(tree, datapath + ':VOLTAGE', 'VOLTAGEVALUES_TEK1_CH' +
+                       str(scope_chnum), 'V')
+    AddNodeWithTag(tree, settingpath + ':CHANNEL_NAME', 'TEXT',
+                   'CHANNEL_NAME_TEK1_CH' + str(scope_chnum))
+    AddNodeWithTag(tree, settingpath + ':GROUND_STATE', 'TEXT',
+                   'GROUND_STATE_TEK1_CH' + str(scope_chnum))
+    AddNodeWithTag(tree, settingpath + ':N_SAMPLES', 'NUMERIC',
+                   'NSAMPLES_TEK1_CH' + str(scope_chnum))
+    AddNumericWithUnit(tree, settingpath + ':DELTA_T', 'DT_TEK1_CH' +
+                   str(scope_chnum), 's')
+    AddNodeWithTag(tree, settingpath + ':N_PRE_SAMP', 'NUMERIC',
+                   'NPRESAMP_TEK1_CH' + str(scope_chnum))
+    AddNumericWithUnit(tree, settingpath + ':TIME_DIV', 'TIMEPERDIV_TEK1_CH' +
+                       str(scope_chnum), 's/div')
+    AddNumericWithUnit(tree, settingpath + ':VOLT_DIV', 'VOLTSPERDIV_TEK1_CH' +
+                       str(scope_chnum), 'V/div')
+    AddNodeWithTag(tree, settingpath + ':PROBE_ATTEN', 'NUMERIC',
+                   'PROBEATTENUATION_TEK1CH' + str(scope_chnum))
 
 
 def camsettings(tree):
