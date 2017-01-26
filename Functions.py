@@ -325,7 +325,7 @@ def scopechannels1(tree, scope_chan):
                    'GROUND_STATE_TEK1CH' + str(scope_chnum))
     AddNodeWithTag(tree, settingpath + ':N_SAMPLES', 'NUMERIC',
                    'NSAMPLES_TEK1CH' + str(scope_chnum))
-    AddNumericWithUnit(tree, settingpath + ':DELTA_T', 'DT_TEK1_CH' +
+    AddNumericWithUnit(tree, settingpath + ':DELTA_T', 'DT_TEK1CH' +
                    str(scope_chnum), 's')
     AddNodeWithTag(tree, settingpath + ':N_PRE_SAMP', 'NUMERIC',
                    'NPRESAMP_TEK1CH' + str(scope_chnum))
