@@ -1,4 +1,7 @@
 # MochiModel
+[![DOI](https://zenodo.org/badge/86887744.svg)](https://zenodo.org/badge/latestdoi/86887744)
+
+
 This python script generates a hierarchical MDSplus model tree which interfaces with the Mochi LabJet MochiControl LabVIEW software.
 MochiControl stores all experiment settings such as capacitor bank voltages and discharge times together with all data acquired through National Instruments PXI-6133 and NI-5752 digitizer cards, Tektronix TDS-2024B oscilloscopes, and a Princeton Instruments PI-MAX 3 fast framing camera to the MochiModel tree.
 Also, MochiControl can load experiment settings from any previous shot by accessing the desired MDSplus tree.
